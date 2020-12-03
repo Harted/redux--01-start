@@ -1,31 +1,12 @@
-import { updateObject } from '../utils'
-
 // action
-export const action = (type, payload) => {
-    return {
-        type: type,
-        payload: payload
-    }
-}
+export const action = (type, payload) => ({ type: type, payload: payload })
 
 // async action
-export const actionAsync = (asyncFunc, type, payload) => {
-    return (dispatch, getState) => {
-        asyncFunc(
-            // callback
-            (newType, newPayload) => {
-                type = newType || type
-                payload = updateObject(payload, newPayload)
-                dispatch(action(type, payload))
-            }, getState
-            // callback
-        )
-    }
+export const actionAsync = (asyncFunc, type, payload) => (dispatch, getState) => {
+    asyncFunc((newType, newPayload) => {
+        dispatch({
+            type: newType || type,
+            payload: { ...payload, ...newPayload }
+        })
+    }, getState)
 }
-
-// /* asyncFunc example */
-// dispatch => {
-//     setTimeout(() => {
-//         dispatch()
-//     }, 2000)
-// }

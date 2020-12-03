@@ -78,9 +78,8 @@ const mapDispatchToProps = dispatch => {
     return {
         dispatch: (type, payload) =>
             dispatch(action(type, payload)),
-        dispatchAsync: (type, payload, asyncFunc) =>
-            dispatch(actionAsync(type, payload, asyncFunc))
-
+        dispatchAsync: (asyncFunc, type, payload) =>
+            dispatch(actionAsync(asyncFunc, type, payload))
     }
 }
 
